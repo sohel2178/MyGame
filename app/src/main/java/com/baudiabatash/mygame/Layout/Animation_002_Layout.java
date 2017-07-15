@@ -20,7 +20,7 @@ import com.baudiabatash.mygame.Utility.AnimUtil;
  */
 
 public class Animation_002_Layout extends SurfaceView implements Runnable {
-    private Thread thread;
+    private Thread thread=null;
     private boolean canDraw=false;
 
     private Bitmap backgroundBitMap;
@@ -30,11 +30,14 @@ public class Animation_002_Layout extends SurfaceView implements Runnable {
     // Paint
     private Paint red_fill,blue_fill,green_fill;
     private Paint red_stroke,blue_stroke,green_stroke;
+    private Paint red_fill_blue_stroke;
     private Paint mGradientFill;
     private float strokeWidth;
     private Context context;
 
     private Path squarePath;
+    private float squareSide,squareX,squareY;
+    private float mCx,mCy,mRadius;
 
     public Animation_002_Layout(Context context) {
         super(context);
@@ -44,6 +47,10 @@ public class Animation_002_Layout extends SurfaceView implements Runnable {
             ,AnimUtil.getScreenHeight(context));
 
         this.strokeWidth=10;
+        this.squareX =100;
+        this.squareY =100;
+        this.squareSide=500;
+        this.mRadius=50;
     }
 
     @Override
@@ -66,15 +73,22 @@ public class Animation_002_Layout extends SurfaceView implements Runnable {
             canvas = surfaceHolder.lockCanvas();
             canvas.drawBitmap(backgroundBitMap,0,0,null);
 
-            squarePath = createSquarePath(100,144,575);
+            squarePath = createSquarePath(squareX,squareY,squareSide);
             canvas.drawPath(squarePath,red_stroke);
+
+            if(mCx==0 && mCy==0){
+                mCx=squareX;
+                mCy=squareY;
+            }
+            motionCircle(10);
+            canvas.drawCircle(mCx,mCy,mRadius,green_fill);
 
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
 
     }
 
-    private Path createSquarePath(int x, int y , int side){
+    private Path createSquarePath(float x, float y , float side){
         Path path = new Path();
         path.moveTo(x,y);
         path.lineTo(x+side,y);
@@ -135,13 +149,26 @@ public class Animation_002_Layout extends SurfaceView implements Runnable {
         green_stroke.setColor(Color.GREEN);
         green_stroke.setStrokeWidth(strokeWidth);
         green_stroke.setStyle(Paint.Style.STROKE);
+        
 
-       /* mGradientFill = new Paint();
-        mGradientFill.setColor(Color.BLACK);
+    }
 
-        mGradientFill.setStrokeWidth(1);
-        mGradientFill.setStyle(Paint.Style.FILL_AND_STROKE);
-        mGradientFill.setShader(new RadialGradient(getWidth() / 2, getHeight() / 2,
-                getHeight() / 3, Color.TRANSPARENT, Color.BLACK, Shader.TileMode.MIRROR));*/
+
+    private void motionCircle(int speed){
+        if(mCy==squareY && mCx<(squareX+squareSide)){
+            mCx+=speed;
+        }
+
+        if(mCy==(squareY+squareSide) && mCx<=(squareX+squareSide)){
+            mCx-=speed;
+        }
+
+        if(mCx==(squareX+squareSide) && mCy<(squareY+squareSide)){
+            mCy+=speed;
+        }
+
+        if(mCx==squareX && mCy<=(squareY+squareSide)){
+            mCy-=speed;
+        }
     }
 }

@@ -19,6 +19,13 @@
         android:layout_below="@+id/ani001"
         android:id="@+id/ani002"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Game Loop Activity"
+        android:layout_below="@+id/ani002"
+        android:id="@+id/ani003"/>
+
 
 
 </RelativeLayout>
