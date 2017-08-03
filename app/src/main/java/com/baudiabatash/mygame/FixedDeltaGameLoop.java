@@ -1,23 +1,19 @@
 package com.baudiabatash.mygame;
 
-import android.app.Activity;
-import android.content.pm.ActivityInfo;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.baudiabatash.mygame.Layout.GameLoopLayout;
+import com.baudiabatash.mygame.Layout.FixedDeltaGameLoopLayout;
 
-public class GameLoopActivity extends Activity {
-
-    private GameLoopLayout layout;
+public class FixedDeltaGameLoop extends AppCompatActivity {
+    private FixedDeltaGameLoopLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        layout = new GameLoopLayout(this);
+        layout = new FixedDeltaGameLoopLayout(this);
         setContentView(layout);
     }
-
 
     @Override
     protected void onResume() {

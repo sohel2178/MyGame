@@ -16,7 +16,7 @@ import com.baudiabatash.mygame.R;
  * Created by Genius 03 on 7/15/2017.
  */
 
-public class GameLoopLayout extends SurfaceView implements Runnable {
+public class FixedDeltaGameLoopLayout extends SurfaceView implements Runnable {
     private Thread thread = null;
     private boolean canDraw=false;
     private SurfaceHolder surfaceHolder;
@@ -38,11 +38,8 @@ public class GameLoopLayout extends SurfaceView implements Runnable {
     private double single_frame_time_second,single_frame_time_millis,single_frame_time_nanos;
 
     // Rorational Field Variable
-    private double theta,theta_per_sec;
 
-    private float mCx,mCy;
-
-    public GameLoopLayout(Context context) {
+    public FixedDeltaGameLoopLayout(Context context) {
         super(context);
         //setBackgroundColor(Color.parseColor("#159884"));
         this.frame_per_second =20;
@@ -51,8 +48,6 @@ public class GameLoopLayout extends SurfaceView implements Runnable {
         this.single_frame_time_nanos = single_frame_time_millis*1000000;
         this.surfaceHolder = getHolder();
         this.strokeWidth=10;
-        this.theta =0;
-        this.theta_per_sec = Math.PI/500000000;
     }
 
     @Override
@@ -99,9 +94,7 @@ public class GameLoopLayout extends SurfaceView implements Runnable {
     }
 
     private void updateDelta(double t_delta) {
-        theta = theta+theta_per_sec*t_delta;
-        mCx = (float) ((getWidth()/2)+Math.cos(theta)*200);
-        mCy = (float) ((getHeight()/2)+Math.sin(theta)*200);
+
     }
 
     private void draw(){
@@ -111,12 +104,6 @@ public class GameLoopLayout extends SurfaceView implements Runnable {
 
         canvas = surfaceHolder.lockCanvas();
         canvas.drawBitmap(bitmap,0,0,null);
-        canvas.drawCircle(getWidth()/2,getHeight()/2,200,red_stroke);
-        canvas.drawCircle(getWidth()/2,getHeight()/2-200,60,green_fill);
-        canvas.drawCircle(getWidth()/2,getHeight()/2+200,60,blue_fill);
-        canvas.drawCircle(mCx,mCy,40,red_stroke);
-
-        canvas.drawText(String.valueOf((int)(theta/(2*Math.PI))),(getWidth()/2-30),(getHeight()/2-30),red_stroke);
         surfaceHolder.unlockCanvasAndPost(canvas);
 
     }

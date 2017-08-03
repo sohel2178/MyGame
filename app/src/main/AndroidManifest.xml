@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".AnimationActivity001" />
         <activity android:name=".AnimationActivity002" />
-        <activity android:name=".GameLoopActivity"></activity>
+        <activity android:name=".GameLoopActivity" />
+        <activity android:name=".FixedDeltaGameLoop"></activity>
     </application>
 
 </manifest>

@@ -14,7 +14,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnAni001,btnAni002,btnAni003;
+    private Button btnAni001,btnAni002,btnAni003,btnSendBroadcast,btnFixedDeltaGameLoop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +24,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnAni001 = (Button) findViewById(R.id.ani001);
         btnAni002 = (Button) findViewById(R.id.ani002);
         btnAni003 = (Button) findViewById(R.id.ani003);
+        btnSendBroadcast = (Button) findViewById(R.id.broadcast);
+        btnFixedDeltaGameLoop = (Button) findViewById(R.id.fixedDeltaGameLoop);
         btnAni001.setOnClickListener(this);
         btnAni002.setOnClickListener(this);
         btnAni003.setOnClickListener(this);
+        btnSendBroadcast.setOnClickListener(this);
+        btnFixedDeltaGameLoop.setOnClickListener(this);
 
         Geocoder geocoder = new Geocoder(this);
         try {
@@ -66,6 +70,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent3);
 
                 break;
+
+            case R.id.broadcast:
+                Intent intent4 = new Intent();
+                intent4.addCategory(Intent.CATEGORY_DEFAULT);
+                intent4.setAction("com.baudiabatash.sohelbroadcastreceiver.receiver");
+                intent4.putExtra("MESSAGE","Hello Sohel");
+                sendBroadcast(intent4);
+                break;
+
+            case R.id.fixedDeltaGameLoop:
+                gotoFixedDeltaGameLoop();
+                break;
         }
     }
+
+    private void gotoFixedDeltaGameLoop() {
+        Intent intent = new Intent(getApplicationContext(),FixedDeltaGameLoop.class);
+        startActivity(intent);
+    }
+
+
 }

@@ -26,6 +26,21 @@
         android:layout_below="@+id/ani002"
         android:id="@+id/ani003"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/broadcast"
+        android:text="Send Broadcast"
+        android:layout_below="@+id/ani003"/>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fixedDeltaGameLoop"
+        android:text="Fixed Delta Game Loop"
+        android:layout_below="@+id/broadcast"/>
+
 
 
 </RelativeLayout>
