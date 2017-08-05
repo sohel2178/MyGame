@@ -19,7 +19,8 @@
         <activity android:name=".AnimationActivity001" />
         <activity android:name=".AnimationActivity002" />
         <activity android:name=".GameLoopActivity" />
-        <activity android:name=".FixedDeltaGameLoop"></activity>
+        <activity android:name=".FixedDeltaGameLoop" />
+        <activity android:name=".SudokuActivity"></activity>
     </application>
 
 </manifest>

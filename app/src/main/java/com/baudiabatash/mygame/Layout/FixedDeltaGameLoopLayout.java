@@ -16,11 +16,14 @@ import com.baudiabatash.mygame.R;
  * Created by Genius 03 on 7/15/2017.
  */
 
-public class FixedDeltaGameLoopLayout extends SurfaceView implements Runnable {
+public class FixedDeltaGameLoopLayout extends SurfaceView implements Runnable,SurfaceHolder.Callback {
     private Thread thread = null;
     private boolean canDraw=false;
     private SurfaceHolder surfaceHolder;
     private Canvas canvas;
+
+    private int canvasWidth;
+    private int canvasHeight;
 
     Bitmap bitmap;
 
@@ -47,6 +50,7 @@ public class FixedDeltaGameLoopLayout extends SurfaceView implements Runnable {
         this.single_frame_time_millis = single_frame_time_second*1000;
         this.single_frame_time_nanos = single_frame_time_millis*1000000;
         this.surfaceHolder = getHolder();
+        this.surfaceHolder.addCallback(this);
         this.strokeWidth=10;
     }
 
@@ -104,6 +108,10 @@ public class FixedDeltaGameLoopLayout extends SurfaceView implements Runnable {
 
         canvas = surfaceHolder.lockCanvas();
         canvas.drawBitmap(bitmap,0,0,null);
+        canvas.drawCircle(canvasWidth,canvasHeight,350,red_fill);
+        canvas.drawCircle(0,canvasHeight,350,green_fill);
+        canvas.drawCircle(0,0,350,blue_fill);
+        canvas.drawCircle(canvasWidth,0,350,green_fill);
         surfaceHolder.unlockCanvasAndPost(canvas);
 
     }
@@ -178,5 +186,22 @@ public class FixedDeltaGameLoopLayout extends SurfaceView implements Runnable {
 
     private int toPx(int dp){
         return (int)((getResources().getDisplayMetrics().density)*dp);
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        this.canvasWidth = width;
+        this.canvasHeight = height;
+
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+
     }
 }

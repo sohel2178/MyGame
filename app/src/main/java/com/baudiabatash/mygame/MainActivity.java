@@ -14,7 +14,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnAni001,btnAni002,btnAni003,btnSendBroadcast,btnFixedDeltaGameLoop;
+    private Button btnAni001,btnAni002,btnAni003,btnSendBroadcast,btnFixedDeltaGameLoop,btnSudoku;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +26,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnAni003 = (Button) findViewById(R.id.ani003);
         btnSendBroadcast = (Button) findViewById(R.id.broadcast);
         btnFixedDeltaGameLoop = (Button) findViewById(R.id.fixedDeltaGameLoop);
+        btnSudoku = (Button) findViewById(R.id.sudokuView);
         btnAni001.setOnClickListener(this);
         btnAni002.setOnClickListener(this);
         btnAni003.setOnClickListener(this);
         btnSendBroadcast.setOnClickListener(this);
         btnFixedDeltaGameLoop.setOnClickListener(this);
+        btnSudoku.setOnClickListener(this);
 
         Geocoder geocoder = new Geocoder(this);
         try {
@@ -82,7 +84,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.fixedDeltaGameLoop:
                 gotoFixedDeltaGameLoop();
                 break;
+
+            case R.id.sudokuView:
+                gotoSudokuView();
+                break;
         }
+    }
+
+    private void gotoSudokuView() {
+        startActivity(new Intent(getApplicationContext(),SudokuActivity.class));
     }
 
     private void gotoFixedDeltaGameLoop() {

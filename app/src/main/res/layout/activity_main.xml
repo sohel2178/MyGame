@@ -41,6 +41,13 @@
         android:text="Fixed Delta Game Loop"
         android:layout_below="@+id/broadcast"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sudokuView"
+        android:text="Sudoku"
+        android:layout_below="@+id/fixedDeltaGameLoop"/>
+
 
 
 </RelativeLayout>
