@@ -8,20 +8,16 @@ import android.graphics.Paint;
  * Created by Genius 03 on 8/5/2017.
  */
 
-public class Element {
-    private int rowId;
+public class Control {
     private int columnId;
     private String value;
-
     private Paint blackPaint;
 
-    public Element(int rowId, int columnId, String value) {
-        this.rowId = rowId;
+
+    public Control(int columnId, String value) {
         this.columnId = columnId;
         this.value = value;
         initPaint();
-
-
     }
 
     private void initPaint() {
@@ -32,14 +28,9 @@ public class Element {
         blackPaint.setTextSize(30f);
     }
 
-    public Element(int rowId, int columnId) {
-        this(rowId,columnId,"");
-    }
-
-
-    public void draw(Canvas canvas,int margin,int side){
+    public void draw(Canvas canvas, int margin, int side){
         int startX= margin+side*columnId;
-        int startY = margin+side*rowId;
+        int startY = margin+side*0;
 
         canvas.drawRect(startX,startY,(startX+side),(startY+side),blackPaint);
 
@@ -48,12 +39,8 @@ public class Element {
         }
     }
 
-    public int getRowId() {
-        return rowId;
-    }
-
-    public void setRowId(int rowId) {
-        this.rowId = rowId;
+    public Control(int columnId) {
+        this(columnId,"");
     }
 
     public int getColumnId() {
@@ -70,13 +57,5 @@ public class Element {
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    public Paint getBlackPaint() {
-        return blackPaint;
-    }
-
-    public void setBlackPaint(Paint blackPaint) {
-        this.blackPaint = blackPaint;
     }
 }
