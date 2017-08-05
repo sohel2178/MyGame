@@ -48,8 +48,11 @@ public class SudokuView extends View {
 
         initElementArray();
 
+
+
         InitializeSudoku initializeSudoku = new InitializeSudoku(elementList,20);
         initializeSudoku.run();
+
 
         //elementList.get(5).setValue("5");
 

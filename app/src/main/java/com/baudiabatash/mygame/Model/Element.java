@@ -12,6 +12,7 @@ public class Element {
     private float textSize;
     private int rowId;
     private int columnId;
+    private int blockId;
     private String value;
 
     private Paint blackPaint;
@@ -22,6 +23,7 @@ public class Element {
         this.value = value;
         this.textSize = 40f;
         initPaint();
+        setBlockId();
 
 
     }
@@ -32,6 +34,38 @@ public class Element {
         blackPaint.setStyle(Paint.Style.STROKE);
         blackPaint.setStrokeWidth(3);
         blackPaint.setTextSize(textSize);
+    }
+
+    private void setBlockId(){
+        if(rowId<=2){
+            if(columnId<=2){
+                blockId=0;
+            }else if(columnId<=5){
+                blockId=1;
+            }else{
+                blockId=2;
+            }
+        }else if(rowId<=5){
+            if(columnId<=2){
+                blockId=3;
+            }else if(columnId<=5){
+                blockId=4;
+            }else{
+                blockId=5;
+            }
+        }else {
+            if(columnId<=2){
+                blockId=6;
+            }else if(columnId<=5){
+                blockId=7;
+            }else{
+                blockId=8;
+            }
+        }
+    }
+
+    public int getBlockId(){
+        return blockId;
     }
 
     public Element(int rowId, int columnId) {
