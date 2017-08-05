@@ -55,7 +55,10 @@ public class InitializeSudoku {
 
         while (loopStarter){
             if(isValueAlreadyInTheBlock(element,initialValue) || isValueAlreadyInTheRow(element,initialValue) || isValueAlreadyInTheColumn(element,initialValue)){
-                initialValue=(initialValue+1)%9;
+                initialValue=(initialValue+1);
+                if(initialValue!=9){
+                    initialValue=initialValue%9;
+                }
                 continue;
             }
             element.setValue(String.valueOf(initialValue));
