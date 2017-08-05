@@ -9,14 +9,17 @@ import android.graphics.Paint;
  */
 
 public class Control {
+    private float textSize;
     private int columnId;
     private String value;
     private Paint blackPaint;
 
 
+
     public Control(int columnId, String value) {
         this.columnId = columnId;
         this.value = value;
+        this.textSize=40f;
         initPaint();
     }
 
@@ -25,7 +28,7 @@ public class Control {
         blackPaint.setColor(Color.BLACK);
         blackPaint.setStyle(Paint.Style.STROKE);
         blackPaint.setStrokeWidth(3);
-        blackPaint.setTextSize(30f);
+        blackPaint.setTextSize(textSize);
     }
 
     public void draw(Canvas canvas, int margin, int side){
@@ -35,7 +38,7 @@ public class Control {
         canvas.drawRect(startX,startY,(startX+side),(startY+side),blackPaint);
 
         if(!value.equals("")){
-            canvas.drawText(value,startX+(side/2),startY+(side/2),blackPaint);
+            canvas.drawText(value,startX+(side/2)-textSize/2,startY+(side/2)+textSize/2,blackPaint);
         }
     }
 

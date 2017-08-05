@@ -11,6 +11,8 @@ import com.baudiabatash.mygame.Layout.SudokuView;
 import com.baudiabatash.mygame.Listener.MyListener;
 import com.baudiabatash.mygame.Model.Control;
 
+import java.util.Random;
+
 public class SudokuActivity extends AppCompatActivity implements MyListener {
     private SudokuView sudokuView;
     private ControlView controlView;
@@ -29,6 +31,14 @@ public class SudokuActivity extends AppCompatActivity implements MyListener {
         controllerContainer = (FrameLayout) findViewById(R.id.controller_container);
         frameLayout.addView(sudokuView);
         controllerContainer.addView(controlView);
+
+        Random random = new Random();
+
+        for(int i=0;i<100;i++){
+            Log.d("HHH",random.nextInt(9)+" Random" );
+        }
+
+
     }
 
     @Override

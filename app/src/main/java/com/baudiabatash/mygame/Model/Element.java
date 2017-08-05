@@ -9,6 +9,7 @@ import android.graphics.Paint;
  */
 
 public class Element {
+    private float textSize;
     private int rowId;
     private int columnId;
     private String value;
@@ -19,6 +20,7 @@ public class Element {
         this.rowId = rowId;
         this.columnId = columnId;
         this.value = value;
+        this.textSize = 40f;
         initPaint();
 
 
@@ -29,7 +31,7 @@ public class Element {
         blackPaint.setColor(Color.BLACK);
         blackPaint.setStyle(Paint.Style.STROKE);
         blackPaint.setStrokeWidth(3);
-        blackPaint.setTextSize(30f);
+        blackPaint.setTextSize(textSize);
     }
 
     public Element(int rowId, int columnId) {
@@ -44,7 +46,7 @@ public class Element {
         canvas.drawRect(startX,startY,(startX+side),(startY+side),blackPaint);
 
         if(!value.equals("")){
-            canvas.drawText(value,startX+(side/2),startY+(side/2),blackPaint);
+            canvas.drawText(value,startX+(side/2)-textSize/3,startY+(side/2)+textSize/3,blackPaint);
         }
     }
 

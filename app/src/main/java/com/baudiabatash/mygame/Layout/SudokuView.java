@@ -12,9 +12,12 @@ import android.view.View;
 
 import com.baudiabatash.mygame.Model.Element;
 import com.baudiabatash.mygame.R;
+import com.baudiabatash.mygame.Utility.InitializeSudoku;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -45,9 +48,12 @@ public class SudokuView extends View {
 
         initElementArray();
 
-        elementList.get(5).setValue("5");
+        InitializeSudoku initializeSudoku = new InitializeSudoku(elementList,20);
+        initializeSudoku.run();
 
-        Log.d("HHH","Element Size = "+elementList.size());
+        //elementList.get(5).setValue("5");
+
+        //Log.d("HHH","Element Size = "+elementList.size());
     }
 
     private void initElementArray() {
@@ -81,7 +87,94 @@ public class SudokuView extends View {
 
         drawBorder(canvas);
 
+        if(isFillAllBox()){
+            if(rowTest()&&columnTest()){
+                Log.d("HHH","YOO BRO You have Done");
+            }
 
+
+        }
+
+
+    }
+
+
+    private boolean rowTest(){
+        boolean retBool = false;
+        int rowCounter=0;
+        List<Integer> sumList = new ArrayList<>();
+        for (int i=0;i<9;i++){
+
+            int value=0;
+            for(Element x:elementList){
+                if(x.getRowId()!=i){
+                    continue;
+                }
+                value = value+Integer.parseInt(x.getValue());
+            }
+
+            sumList.add(value);
+
+        }
+
+
+        for(int x:sumList){
+            if(x!=45){
+                break;
+            }else {
+                rowCounter++;
+            }
+        }
+
+        return rowCounter==9;
+
+
+    }
+
+    private boolean columnTest(){
+        int rowCounter=0;
+        List<Integer> sumList = new ArrayList<>();
+        for (int i=0;i<9;i++){
+
+            int value=0;
+            for(Element x:elementList){
+                if(x.getColumnId()!=i){
+                    continue;
+                }
+                value = value+Integer.parseInt(x.getValue());
+            }
+
+            sumList.add(value);
+
+        }
+
+
+        for(int x:sumList){
+            if(x!=45){
+                break;
+            }else {
+                rowCounter++;
+            }
+        }
+
+        return rowCounter==9;
+
+
+    }
+
+
+    private boolean isFillAllBox(){
+        boolean retBool=false;
+        int allBox =81;
+        int counter=0;
+
+        for(Element x:elementList){
+            if(!x.getValue().equals("")){
+                counter++;
+            }
+        }
+
+        return allBox==counter;
     }
 
     private void initPaint(){
