@@ -48,6 +48,13 @@
         android:text="Sudoku"
         android:layout_below="@+id/fixedDeltaGameLoop"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/abacusView"
+        android:text="Abucus"
+        android:layout_below="@+id/sudokuView"/>
+
 
 
 </RelativeLayout>

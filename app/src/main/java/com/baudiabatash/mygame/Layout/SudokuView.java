@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.baudiabatash.mygame.Listener.CompleteListener;
 import com.baudiabatash.mygame.Model.Element;
 import com.baudiabatash.mygame.R;
 import com.baudiabatash.mygame.Utility.InitializeSudoku;
@@ -27,6 +28,8 @@ import java.util.Map;
 public class SudokuView extends View {
     private Context context;
     private int canvasWidth,canvasHeight;
+
+    private CompleteListener listener;
 
     private Paint selectPaint,borderPaint;
 
@@ -50,13 +53,17 @@ public class SudokuView extends View {
 
 
 
-        InitializeSudoku initializeSudoku = new InitializeSudoku(elementList,20);
-        initializeSudoku.run();
+        InitializeSudoku initializeSudoku = new InitializeSudoku(elementList,50);
+        //initializeSudoku.initBoard();
 
 
         //elementList.get(5).setValue("5");
 
         //Log.d("HHH","Element Size = "+elementList.size());
+    }
+
+    public void setCompleteListener(CompleteListener listener){
+        this.listener = listener;
     }
 
     private void initElementArray() {
@@ -91,8 +98,12 @@ public class SudokuView extends View {
         drawBorder(canvas);
 
         if(isFillAllBox()){
+            Log.d("HHH","All Box Complete");
             if(rowTest()&&columnTest()){
                 Log.d("HHH","YOO BRO You have Done");
+                if(listener!=null){
+                    listener.complete(true);
+                }
             }
 
 

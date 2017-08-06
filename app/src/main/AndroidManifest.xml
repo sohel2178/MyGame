@@ -20,7 +20,8 @@
         <activity android:name=".AnimationActivity002" />
         <activity android:name=".GameLoopActivity" />
         <activity android:name=".FixedDeltaGameLoop" />
-        <activity android:name=".SudokuActivity"></activity>
+        <activity android:name=".SudokuActivity" />
+        <activity android:name=".AbacusActivity"></activity>
     </application>
 
 </manifest>
