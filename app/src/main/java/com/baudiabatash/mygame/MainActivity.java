@@ -14,7 +14,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnAni001,btnAni002,btnAni003,btnSendBroadcast,btnFixedDeltaGameLoop,btnSudoku,btnAbucusView;
+    private Button btnAni001,btnAni002,btnAni003,btnSendBroadcast,btnFixedDeltaGameLoop,btnSudoku,btnAbucusView,btnTestActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnFixedDeltaGameLoop = (Button) findViewById(R.id.fixedDeltaGameLoop);
         btnSudoku = (Button) findViewById(R.id.sudokuView);
         btnAbucusView = (Button) findViewById(R.id.abacusView);
+        btnTestActivity = (Button) findViewById(R.id.testActivity);
+
         btnAni001.setOnClickListener(this);
         btnAni002.setOnClickListener(this);
         btnAni003.setOnClickListener(this);
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnFixedDeltaGameLoop.setOnClickListener(this);
         btnSudoku.setOnClickListener(this);
         btnAbucusView.setOnClickListener(this);
+        btnTestActivity.setOnClickListener(this);
 
         Geocoder geocoder = new Geocoder(this);
         try {
@@ -94,7 +97,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.abacusView:
                 gotoAbacusView();
                 break;
+
+            case R.id.testActivity:
+                gotoTestActivity();
+                break;
         }
+    }
+
+    private void gotoTestActivity() {
+        startActivity(new Intent(getApplicationContext(),TestActivity.class));
     }
 
     private void gotoAbacusView() {

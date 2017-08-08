@@ -55,6 +55,13 @@
         android:text="Abucus"
         android:layout_below="@+id/sudokuView"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/testActivity"
+        android:text="Test Activity"
+        android:layout_below="@+id/abacusView"/>
+
 
 
 </RelativeLayout>

@@ -71,7 +71,7 @@ public class AbacusView extends View {
 
     private void drawBorder(Canvas canvas) {
         canvas.drawRect(margin,margin,canvas.getWidth()-margin,canvas.getHeight()-margin,borderPaint);
-        dividerY = effectiveHeight/5;
+        dividerY = effectiveHeight/4;
         canvas.drawLine(margin,margin+dividerY,canvas.getWidth()-margin,margin+dividerY,borderPaint);
         rodCenterToCenter = effectiveWidth/9;
 
