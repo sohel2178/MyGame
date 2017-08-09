@@ -10,12 +10,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
-
-import com.baudiabatash.mygame.Model.EarthBead;
-import com.baudiabatash.mygame.Model.EarthBeadGroup;
-import com.baudiabatash.mygame.Model.HeavenBead;
 import com.baudiabatash.mygame.Model.Rod;
-import com.baudiabatash.myutil.MyUtils;
+
 
 /**
  * Created by Sohel on 8/6/2017.
@@ -27,15 +23,6 @@ public class TestLayout extends SurfaceView implements Runnable {
     private SurfaceHolder surfaceHolder;
     private Canvas canvas;
     private Context context;
-
-    private boolean isClicked;
-
-    private float screenHeight;
-
-    private int moveState;
-    private float displacement;
-
-    //Bitmap bitmap;
 
     private static final String LOG="SOHEL";
 
@@ -50,13 +37,6 @@ public class TestLayout extends SurfaceView implements Runnable {
     private double tLF,tEOR,t_delta;
     private double single_frame_time_second,single_frame_time_millis,single_frame_time_nanos;
 
-    // Rorational Field Variable
-    //private double theta,theta_per_sec;
-
-
-    //private EarthBead earthBead;
-    //private EarthBeadGroup earthBeadGroup;
-    //private HeavenBead heavenBead;
 
     private Rod rod;
 
@@ -70,14 +50,6 @@ public class TestLayout extends SurfaceView implements Runnable {
         this.single_frame_time_nanos = single_frame_time_millis*1000000;
         this.surfaceHolder = getHolder();
         this.strokeWidth=10;
-        //this.theta =0;
-        //this.theta_per_sec = Math.PI/500000000;
-
-
-        isClicked=false;
-        moveState=0;
-        displacement=300;
-
 
         rod = new Rod(100,0,getScreenHeight());
     }
@@ -126,35 +98,15 @@ public class TestLayout extends SurfaceView implements Runnable {
     }
 
     private void updateDelta(double t_delta) {
-        //theta = theta+theta_per_sec*t_delta;
-        /*if(isClicked){
-            mCy=mCy+5;
-        }*/
-
-
         rod.move();
-
-        //earthBeadGroup.move();
-
-
-
     }
 
     private void draw(){
-        //bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.check);
 
-        //bitmap = Bitmap.createScaledBitmap(bitmap,getWidth(),getHeight(),true);
 
         canvas = surfaceHolder.lockCanvas();
-        //canvas.drawBitmap(bitmap,0,0,null);
         canvas.drawColor(Color.WHITE);
-        //canvas.drawCircle(getWidth()/2,getHeight()/2,200,red_stroke);
-        //canvas.drawCircle(getWidth()/2,getHeight()/2-200,60,green_fill);
-        //canvas.drawCircle(getWidth()/2,getHeight()/2+200,60,blue_fill);
-
         rod.draw(canvas);
-
-        //canvas.drawText(String.valueOf((int)(theta/(2*Math.PI))),(getWidth()/2-30),(getHeight()/2-30),red_stroke);
         surfaceHolder.unlockCanvasAndPost(canvas);
 
     }
@@ -165,21 +117,13 @@ public class TestLayout extends SurfaceView implements Runnable {
 
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:{
-
-
                 return true;
-
             }
 
             case MotionEvent.ACTION_MOVE:{
                 float x= event.getX();
                 float y= event.getY();
-
-                //earthBeadGroup.check(x,y);
-
                 rod.check(x,y);
-
-
             }
         }
         return value;
@@ -235,7 +179,6 @@ public class TestLayout extends SurfaceView implements Runnable {
     }
 
     public void resume(){
-        // Do the thing When Activity is Resume
         canDraw = true;
         thread = new Thread(this);
         thread.start();

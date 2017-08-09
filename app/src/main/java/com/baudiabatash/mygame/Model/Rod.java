@@ -28,10 +28,16 @@ public class Rod {
 
     private List<EarthBead> earthBeadList;
 
+    // declare a integer veriable that will tell us which elenemt is touched
+    // set its value in check method
+    // and take appropriate action in move method according to value
+
+
     public Rod(float refX, float refY, float height) {
         this.refX = refX;
         this.refY = refY;
         this.height = height;
+        //init Touch element value equal 0. in that case no action will take
         this.availableHeight = height-2*MARGIN;
 
         this.rodHeight = availableHeight-TEXI_BOX_SIZE;
@@ -88,7 +94,6 @@ public class Rod {
 
     public void move(){
 
-
         for (EarthBead x: earthBeadList){
             //Log.d("YYYY","MOVE METHOD IS CALLED");
             x.move();
@@ -96,18 +101,15 @@ public class Rod {
 
         heavenBead.move();
 
-
     }
 
     public void check(float x, float y){
         EarthBead earthBead = getTouchedEarthBead(x,y);
 
-
-
-
         if(earthBead!=null){
 
             if(earthBead instanceof HeavenBead){
+                //Set Touch Element so that its Only register heaven Bead
                 if(y-earthBead.getcY()>THRESHOLD){
                     heavenBead.setMoveState(1);
 

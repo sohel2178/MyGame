@@ -45,14 +45,8 @@ public class HeavenBead extends EarthBead {
                     setcY(getcY()+25);
                 }else{
                     setcY(getInitialCy()+getDisplacement());
+                    setMoveState(0);
                 }
-
-
-
-                //Log.d("GGG","HUM");
-
-
-
 
             }else{
 
@@ -60,6 +54,7 @@ public class HeavenBead extends EarthBead {
 
                 if(getcY()<=getInitialCy()){
                     setcY(getInitialCy());
+                    setMoveState(0);
 
                 }else{
                     setcY(getcY()-25);

@@ -3,6 +3,7 @@ package com.baudiabatash.mygame.Model;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 /**
  * Created by Sohel on 8/8/2017.
@@ -111,12 +112,15 @@ public class EarthBead {
 
     public void move(){
         if(moveState!=0){
+            Log.d("TEST","TTTTT");
             if(moveState==1){
 
                 if(cY<initialCy){
                     cY=cY+25;
                 }else{
                     cY=initialCy;
+                    // For Stoping Update set Move State =0
+                    moveState=0;
                 }
 
                 isTouch=false;
@@ -127,6 +131,8 @@ public class EarthBead {
 
                 if(cY<=initialCy-displacement){
                     cY = initialCy-displacement;
+                    // For Stoping Update set Move State =0
+                    moveState =0;
                 }else{
                     cY=cY-25;
                 }
