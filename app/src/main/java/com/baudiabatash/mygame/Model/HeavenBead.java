@@ -3,7 +3,6 @@ package com.baudiabatash.mygame.Model;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 /**
  * Created by Genius 03 on 8/9/2017.

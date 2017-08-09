@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -244,13 +243,6 @@ public class TestLayout extends SurfaceView implements Runnable {
     }
 
     private void stats(){
-        Log.d(LOG,"frame_per_second "+frame_per_second);
-        Log.d(LOG,"single_frame_time_second "+single_frame_time_second);
-        Log.d(LOG,"single_frame_time_millis "+single_frame_time_millis);
-        Log.d(LOG,"single_frame_time_nanos "+single_frame_time_nanos);
-        Log.d(LOG,"tLF "+tLF);
-        Log.d(LOG,"tEOR "+tEOR);
-        Log.d(LOG,"t_delta "+t_delta);
     }
 
 

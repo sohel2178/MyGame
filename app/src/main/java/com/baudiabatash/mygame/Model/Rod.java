@@ -3,7 +3,6 @@ package com.baudiabatash.mygame.Model;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +12,7 @@ import java.util.List;
  */
 
 public class Rod {
+    private static final int THRESHOLD=25;
     private static final float MARGIN=10;
     private static final float TEXI_BOX_SIZE=80;
     private static final float BEAD_RADIUS=40;
@@ -108,13 +108,10 @@ public class Rod {
         if(earthBead!=null){
 
             if(earthBead instanceof HeavenBead){
-                if(y-earthBead.getcY()>15){
+                if(y-earthBead.getcY()>THRESHOLD){
                     heavenBead.setMoveState(1);
 
-                    Log.d("GGG",heavenBead.isTouch()+"");
-
-
-                }else if(y-earthBead.getcY()<-15){
+                }else if(y-earthBead.getcY()<-THRESHOLD){
                     heavenBead.setMoveState(-1);
 
                 }
@@ -122,11 +119,11 @@ public class Rod {
                 // Logic for earthBead
                 int beadIndex = earthBeadList.indexOf(earthBead);
 
-                if(y-earthBead.getcY()>15){
+                if(y-earthBead.getcY()>THRESHOLD){
                     moveBeadDown(beadIndex);
 
 
-                }else if(y-earthBead.getcY()<-15){
+                }else if(y-earthBead.getcY()<-THRESHOLD){
                     moveBeadUp(beadIndex);
 
                 }
@@ -147,7 +144,6 @@ public class Rod {
 
         for(EarthBead x: earthBeadList){
             if(earthBeadList.indexOf(x)<=beadIndex){
-                Log.d("YYYY","Inside Move Up");
                 x.setMoveState(-1);
             }
         }
