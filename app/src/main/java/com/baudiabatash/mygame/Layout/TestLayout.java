@@ -54,11 +54,10 @@ public class TestLayout extends SurfaceView implements Runnable {
     // Rorational Field Variable
     //private double theta,theta_per_sec;
 
-    private float mCx,mCy,initialmCx,initialmCy;
 
-    private EarthBead earthBead;
+    //private EarthBead earthBead;
     //private EarthBeadGroup earthBeadGroup;
-    private HeavenBead heavenBead;
+    //private HeavenBead heavenBead;
 
     private Rod rod;
 
@@ -75,20 +74,11 @@ public class TestLayout extends SurfaceView implements Runnable {
         //this.theta =0;
         //this.theta_per_sec = Math.PI/500000000;
 
-        mCx = 100;
-        mCy = 100;
-        initialmCx=100;
-        initialmCy=100;
 
         isClicked=false;
         moveState=0;
         displacement=300;
 
-        earthBead = new EarthBead(200,100);
-        heavenBead = new HeavenBead(400,100);
-
-
-        //earthBeadGroup = new EarthBeadGroup(300,100);
 
         rod = new Rod(100,0,getScreenHeight());
     }
@@ -142,29 +132,6 @@ public class TestLayout extends SurfaceView implements Runnable {
             mCy=mCy+5;
         }*/
 
-        if(moveState!=0){
-            if(moveState==1){
-
-                if(mCy<initialmCy+displacement){
-                    mCy=mCy+25;
-                }else{
-                    mCy=initialmCy+displacement;
-                }
-
-
-            }else{
-
-                if(mCy<=initialmCy){
-                    mCy=initialmCy;
-
-                }else{
-                    mCy=mCy-25;
-                }
-
-            }
-        }
-
-        earthBead.move();
 
         rod.move();
 
@@ -185,9 +152,6 @@ public class TestLayout extends SurfaceView implements Runnable {
         //canvas.drawCircle(getWidth()/2,getHeight()/2,200,red_stroke);
         //canvas.drawCircle(getWidth()/2,getHeight()/2-200,60,green_fill);
         //canvas.drawCircle(getWidth()/2,getHeight()/2+200,60,blue_fill);
-        canvas.drawCircle(mCx,mCy,40,red_stroke);
-        earthBead.draw(canvas);
-        heavenBead.draw(canvas);
 
         rod.draw(canvas);
 
@@ -214,26 +178,8 @@ public class TestLayout extends SurfaceView implements Runnable {
 
                 //earthBeadGroup.check(x,y);
 
-                earthBead.check(x,y);
-
                 rod.check(x,y);
 
-                float dist = (float) Math.sqrt(Math.pow(mCx-x,2)+Math.pow(mCy-y,2));
-
-
-
-                if(dist<40){
-                    //isClicked=true;
-
-                    if(y-mCy>15){
-                        //isClicked=true;
-                        moveState=1;
-                    }else if(y-mCy<-15){
-                        moveState=-1;
-
-                    }
-
-                }
 
             }
         }

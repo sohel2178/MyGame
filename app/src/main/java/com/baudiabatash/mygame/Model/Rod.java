@@ -3,6 +3,7 @@ package com.baudiabatash.mygame.Model;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,7 @@ public class Rod {
         boxPaint.setColor(Color.BLACK);
         boxPaint.setStyle(Paint.Style.STROKE);
         boxPaint.setStrokeWidth(5);
+        boxPaint.setTextSize(40);
 
         rodPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         rodPaint.setColor(Color.RED);
@@ -80,11 +82,15 @@ public class Rod {
         for(EarthBead x: earthBeadList){
             x.draw(canvas);
         }
+
+        canvas.drawText(String.valueOf(getValue()),refX-MARGIN,refY+MARGIN+TEXI_BOX_SIZE/2+MARGIN,boxPaint);
     }
 
     public void move(){
 
+
         for (EarthBead x: earthBeadList){
+            //Log.d("YYYY","MOVE METHOD IS CALLED");
             x.move();
         }
 
@@ -96,18 +102,33 @@ public class Rod {
     public void check(float x, float y){
         EarthBead earthBead = getTouchedEarthBead(x,y);
 
+
+
+
         if(earthBead!=null){
+
             if(earthBead instanceof HeavenBead){
-                // Logic for HeavenBead
+                if(y-earthBead.getcY()>15){
+                    heavenBead.setMoveState(1);
+
+                    Log.d("GGG",heavenBead.isTouch()+"");
+
+
+                }else if(y-earthBead.getcY()<-15){
+                    heavenBead.setMoveState(-1);
+
+                }
             }else{
                 // Logic for earthBead
                 int beadIndex = earthBeadList.indexOf(earthBead);
 
-                if(y-earthBead.getcY()>20){
+                if(y-earthBead.getcY()>15){
                     moveBeadDown(beadIndex);
 
-                }else if(y-earthBead.getcY()<-20){
+
+                }else if(y-earthBead.getcY()<-15){
                     moveBeadUp(beadIndex);
+
                 }
             }
         }
@@ -126,6 +147,7 @@ public class Rod {
 
         for(EarthBead x: earthBeadList){
             if(earthBeadList.indexOf(x)<=beadIndex){
+                Log.d("YYYY","Inside Move Up");
                 x.setMoveState(-1);
             }
         }
@@ -152,5 +174,14 @@ public class Rod {
         }
 
         return bead;
+    }
+
+    public int getValue(){
+        int total = 0;
+        for(EarthBead x: earthBeadList){
+            total = total+x.getValue();
+        }
+
+        return total+heavenBead.getValue();
     }
 }

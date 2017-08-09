@@ -3,6 +3,7 @@ package com.baudiabatash.mygame.Model;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 /**
  * Created by Genius 03 on 8/9/2017.
@@ -39,6 +40,7 @@ public class HeavenBead extends EarthBead {
     public void move() {
         if(getMoveState()!=0){
             if(getMoveState()==1){
+                setTouch(true);
 
                 if(getcY()<getInitialCy()+getDisplacement()){
                     setcY(getcY()+25);
@@ -46,14 +48,16 @@ public class HeavenBead extends EarthBead {
                     setcY(getInitialCy()+getDisplacement());
                 }
 
-                if(getcY()==getInitialCy()+getDisplacement()){
-                    setTouch(true);
-                }
+
+
+                //Log.d("GGG","HUM");
 
 
 
 
             }else{
+
+                setTouch(false);
 
                 if(getcY()<=getInitialCy()){
                     setcY(getInitialCy());
@@ -62,9 +66,7 @@ public class HeavenBead extends EarthBead {
                     setcY(getcY()-25);
                 }
 
-                if(getcY()==getInitialCy()){
-                    setTouch(false);
-                }
+
 
             }
         }
