@@ -41,10 +41,10 @@ public class EarthBeadGroup {
 
         if(bead!=null){
             int beadIndex = earthBeadList.indexOf(bead);
-            if(y-bead.getcY()>15){
+            if(y-bead.getcY()>20){
                 moveBeadDown(beadIndex);
 
-            }else if(y-bead.getcY()<-15){
+            }else if(y-bead.getcY()<-20){
                 moveBeadUp(beadIndex);
             }
         }
@@ -81,7 +81,7 @@ public class EarthBeadGroup {
         EarthBead bead = null;
 
         for(EarthBead eb: earthBeadList){
-            float ebDist = (float) Math.sqrt(Math.pow(eb.getcX()-x,2)+Math.pow(eb.getcX()-y,2));
+            float ebDist = (float) Math.sqrt(Math.pow(eb.getcX()-x,2)+Math.pow(eb.getcY()-y,2));
 
             if(ebDist<eb.getRadius()){
                 bead = eb;

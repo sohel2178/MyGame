@@ -9,25 +9,32 @@ import android.graphics.Paint;
  */
 
 public class EarthBead {
+    private static final float RADIUS=40;
+    private static final int THRESHOLD=20;
 
-    private float cX,cY,radius;
+    private float cX,cY;
     private float displacement;
     private float initialCy;
 
     private Paint paint;
 
     private int moveState;
+    private boolean isTouch;
 
-    public EarthBead(float cX, float cY, float radius) {
+
+    public EarthBead(float cX, float cY, float displacement) {
         this.cX = cX;
         this.cY = cY;
-        this.radius = radius;
-        this.displacement =200;
+        this.displacement = displacement;
         this.initialCy = cY;
-
         moveState= 0;
+        isTouch = false;
 
         initPaint();
+    }
+
+    public EarthBead(float cX, float cY) {
+        this(cX,cY,200);
     }
 
     private void initPaint() {
@@ -40,31 +47,59 @@ public class EarthBead {
         return cX;
     }
 
-    public void setcX(float cX) {
-        this.cX = cX;
-    }
-
     public float getcY() {
         return cY;
     }
 
-    public void setcY(float cY) {
-        this.cY = cY;
+    public float getRadius(){
+        return RADIUS;
     }
 
-    public float getRadius() {
-        return radius;
+
+    public void check(float x, float y){
+        float ebDist = (float) Math.sqrt(Math.pow(cX-x,2)+Math.pow(cY-y,2));
+
+        if(ebDist<=RADIUS){
+
+            if(y-cY>=THRESHOLD){
+                moveState=1;
+            }else if(y-cY<-15){
+                moveState=-1;
+            }
+        }
     }
 
-    public void setRadius(float radius) {
-        this.radius = radius;
-    }
 
     public void draw(Canvas canvas){
-        canvas.drawCircle(cX,cY,radius,paint);
+        canvas.drawCircle(cX,cY,RADIUS,paint);
 
     }
 
+    public boolean isTouch() {
+        return isTouch;
+    }
+
+    public void setTouch(boolean touch) {
+        isTouch = touch;
+    }
+
+    public int getValue(){
+        int value = 0;
+        if(isTouch){
+           value=1;
+        }
+
+        return value;
+
+    }
+
+    public Paint getPaint() {
+        return paint;
+    }
+
+    public void setPaint(Paint paint) {
+        this.paint = paint;
+    }
 
     public int getMoveState() {
         return moveState;
@@ -84,6 +119,8 @@ public class EarthBead {
                     cY=initialCy+displacement;
                 }
 
+                isTouch=false;
+
 
             }else{
 
@@ -94,7 +131,35 @@ public class EarthBead {
                     cY=cY-25;
                 }
 
+                isTouch = true;
+
             }
         }
     }
+
+    public float getDisplacement() {
+        return displacement;
+    }
+
+    public void setDisplacement(float displacement) {
+        this.displacement = displacement;
+    }
+
+    public float getInitialCy() {
+        return initialCy;
+    }
+
+    public void setInitialCy(float initialCy) {
+        this.initialCy = initialCy;
+    }
+
+    public void setcX(float cX) {
+        this.cX = cX;
+    }
+
+    public void setcY(float cY) {
+        this.cY = cY;
+    }
+
+
 }

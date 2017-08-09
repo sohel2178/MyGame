@@ -14,6 +14,7 @@ import com.baudiabatash.mygame.Listener.CompleteListener;
 import com.baudiabatash.mygame.Model.Element;
 import com.baudiabatash.mygame.R;
 import com.baudiabatash.mygame.Utility.InitializeSudoku;
+import com.baudiabatash.myutil.MyUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +51,8 @@ public class SudokuView extends View {
         isTouch = false;
 
         initElementArray();
+
+
 
 
 

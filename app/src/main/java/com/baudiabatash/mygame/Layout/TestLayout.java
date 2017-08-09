@@ -1,21 +1,22 @@
 package com.baudiabatash.mygame.Layout;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
+import android.view.WindowManager;
 
 import com.baudiabatash.mygame.Model.EarthBead;
 import com.baudiabatash.mygame.Model.EarthBeadGroup;
-import com.baudiabatash.mygame.Model.HeavenlyBead;
-import com.baudiabatash.mygame.R;
+import com.baudiabatash.mygame.Model.HeavenBead;
+import com.baudiabatash.mygame.Model.Rod;
+import com.baudiabatash.myutil.MyUtils;
 
 /**
  * Created by Sohel on 8/6/2017.
@@ -26,8 +27,11 @@ public class TestLayout extends SurfaceView implements Runnable {
     private boolean canDraw=false;
     private SurfaceHolder surfaceHolder;
     private Canvas canvas;
+    private Context context;
 
     private boolean isClicked;
+
+    private float screenHeight;
 
     private int moveState;
     private float displacement;
@@ -53,11 +57,15 @@ public class TestLayout extends SurfaceView implements Runnable {
     private float mCx,mCy,initialmCx,initialmCy;
 
     private EarthBead earthBead;
-    private EarthBeadGroup earthBeadGroup;
+    //private EarthBeadGroup earthBeadGroup;
+    private HeavenBead heavenBead;
+
+    private Rod rod;
 
     public TestLayout(Context context) {
         super(context);
         //setBackgroundColor(Color.parseColor("#159884"));
+        this.context = context;
         this.frame_per_second =30;
         this.single_frame_time_second = 1/frame_per_second;
         this.single_frame_time_millis = single_frame_time_second*1000;
@@ -76,9 +84,13 @@ public class TestLayout extends SurfaceView implements Runnable {
         moveState=0;
         displacement=300;
 
-        earthBead = new EarthBead(200,100,40);
+        earthBead = new EarthBead(200,100);
+        heavenBead = new HeavenBead(400,100);
 
-        earthBeadGroup = new EarthBeadGroup(300,100);
+
+        //earthBeadGroup = new EarthBeadGroup(300,100);
+
+        rod = new Rod(100,0,getScreenHeight());
     }
 
     @Override
@@ -154,7 +166,9 @@ public class TestLayout extends SurfaceView implements Runnable {
 
         earthBead.move();
 
-        earthBeadGroup.move();
+        rod.move();
+
+        //earthBeadGroup.move();
 
 
 
@@ -173,7 +187,9 @@ public class TestLayout extends SurfaceView implements Runnable {
         //canvas.drawCircle(getWidth()/2,getHeight()/2+200,60,blue_fill);
         canvas.drawCircle(mCx,mCy,40,red_stroke);
         earthBead.draw(canvas);
-        earthBeadGroup.draw(canvas);
+        heavenBead.draw(canvas);
+
+        rod.draw(canvas);
 
         //canvas.drawText(String.valueOf((int)(theta/(2*Math.PI))),(getWidth()/2-30),(getHeight()/2-30),red_stroke);
         surfaceHolder.unlockCanvasAndPost(canvas);
@@ -196,27 +212,15 @@ public class TestLayout extends SurfaceView implements Runnable {
                 float x= event.getX();
                 float y= event.getY();
 
-                earthBeadGroup.check(x,y);
+                //earthBeadGroup.check(x,y);
+
+                earthBead.check(x,y);
+
+                rod.check(x,y);
 
                 float dist = (float) Math.sqrt(Math.pow(mCx-x,2)+Math.pow(mCy-y,2));
 
-                float ebDist = (float) Math.sqrt(Math.pow(earthBead.getcX()-x,2)+Math.pow(earthBead.getcX()-y,2));
 
-                if(ebDist<40){
-                    //isClicked=true;
-
-
-                    if(y-earthBead.getcY()>15){
-                        //isClicked=true;
-                        //moveState=1;
-                        earthBead.setMoveState(1);
-                    }else if(y-earthBead.getcY()<-15){
-                        //moveState=-1;
-                        earthBead.setMoveState(-1);
-
-                    }
-
-                }
 
                 if(dist<40){
                     //isClicked=true;
@@ -307,6 +311,15 @@ public class TestLayout extends SurfaceView implements Runnable {
 
     private int toPx(int dp){
         return (int)((getResources().getDisplayMetrics().density)*dp);
+    }
+
+    private int getScreenHeight() {
+        WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        int height = metrics.heightPixels;
+        return height;
     }
 
 }
