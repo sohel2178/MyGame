@@ -1,17 +1,22 @@
 package com.baudiabatash.mygame.Model;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+
+import com.baudiabatash.mygame.R;
 
 /**
  * Created by Sohel on 8/8/2017.
  */
 
 public class EarthBead {
-    private static final float RADIUS=40;
+    private static final float RADIUS=55;
     private static final int THRESHOLD=20;
+    private static final int INCREMENT=25;
 
     private float cX,cY;
     private float displacement;
@@ -22,8 +27,11 @@ public class EarthBead {
     private int moveState;
     private boolean isTouch;
 
+    private Context context;
 
-    public EarthBead(float cX, float cY, float displacement) {
+
+    public EarthBead(Context context,float cX, float cY, float displacement) {
+        this.context=context;
         this.cX = cX;
         this.cY = cY;
         this.displacement = displacement;
@@ -34,14 +42,14 @@ public class EarthBead {
         initPaint();
     }
 
-    public EarthBead(float cX, float cY) {
-        this(cX,cY,200);
+    public EarthBead(Context context,float cX, float cY) {
+        this(context,cX,cY,200);
     }
 
     private void initPaint() {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.RED);
+        paint.setColor(ContextCompat.getColor(context, R.color.earthbeadColor));
     }
 
     public float getcX() {
@@ -64,7 +72,7 @@ public class EarthBead {
 
             if(y-cY>=THRESHOLD){
                 moveState=1;
-            }else if(y-cY<-15){
+            }else if(y-cY<-THRESHOLD){
                 moveState=-1;
             }
         }
@@ -112,15 +120,14 @@ public class EarthBead {
 
     public void move(){
         if(moveState!=0){
-            Log.d("TEST","TTTTT");
             if(moveState==1){
 
                 if(cY<initialCy){
-                    cY=cY+25;
+                    cY=cY+INCREMENT;
                 }else{
                     cY=initialCy;
                     // For Stoping Update set Move State =0
-                    moveState=0;
+                    //moveState=0;
                 }
 
                 isTouch=false;
@@ -132,9 +139,9 @@ public class EarthBead {
                 if(cY<=initialCy-displacement){
                     cY = initialCy-displacement;
                     // For Stoping Update set Move State =0
-                    moveState =0;
+                    //moveState =0;
                 }else{
-                    cY=cY-25;
+                    cY=cY-INCREMENT;
                 }
                 isTouch = true;
 
@@ -164,6 +171,10 @@ public class EarthBead {
 
     public void setcY(float cY) {
         this.cY = cY;
+    }
+
+    private int toPx(int dp){
+        return (int)((context.getResources().getDisplayMetrics().density)*dp);
     }
 
 

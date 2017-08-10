@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="borderColor">#03A9F4</color>
     <color name="rodColor">#FF6D00</color>
+    <color name="earthbeadColor">#673AB7</color>
+    <color name="heavenbeadColor">#009688</color>
 </resources>

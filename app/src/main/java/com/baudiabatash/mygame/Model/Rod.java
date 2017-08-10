@@ -1,5 +1,6 @@
 package com.baudiabatash.mygame.Model;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,10 +13,10 @@ import java.util.List;
  */
 
 public class Rod {
-    private static final int THRESHOLD=25;
-    private static final float MARGIN=10;
+    private static final int THRESHOLD=15;
+    private static final float MARGIN=20;
     private static final float TEXI_BOX_SIZE=80;
-    private static final float BEAD_RADIUS=40;
+    private static final int BEAD_RADIUS=55;
     private float refX,refY;
     private float height;
     private float availableHeight;
@@ -27,13 +28,15 @@ public class Rod {
     private float heavenBeadSpace,earthBeadSpace;
 
     private List<EarthBead> earthBeadList;
+    private Context context;
 
     // declare a integer veriable that will tell us which elenemt is touched
     // set its value in check method
     // and take appropriate action in move method according to value
 
 
-    public Rod(float refX, float refY, float height) {
+    public Rod(Context context,float refX, float refY, float height) {
+        this.context = context;
         this.refX = refX;
         this.refY = refY;
         this.height = height;
@@ -41,12 +44,12 @@ public class Rod {
         this.availableHeight = height-2*MARGIN;
 
         this.rodHeight = availableHeight-TEXI_BOX_SIZE;
-        heavenBeadSpace = (rodHeight/4)-5;
+        heavenBeadSpace = (rodHeight/3)-5;
         earthBeadSpace = rodHeight-heavenBeadSpace-5;
 
         float heavenBeadCy = refY+MARGIN+TEXI_BOX_SIZE+BEAD_RADIUS;
 
-        heavenBead = new HeavenBead(refX,heavenBeadCy,heavenBeadSpace-2*BEAD_RADIUS);
+        heavenBead = new HeavenBead(context,refX,heavenBeadCy,heavenBeadSpace-2* BEAD_RADIUS);
 
         float earthBeadDisplacement=earthBeadSpace-8*BEAD_RADIUS;
 
@@ -61,9 +64,13 @@ public class Rod {
         float earthBeadFirstRef = refY+MARGIN+TEXI_BOX_SIZE+heavenBeadSpace+10+earthBeadDisplacement+BEAD_RADIUS;
 
         for (int i=0;i<4;i++){
-            EarthBead earthBead = new EarthBead(refX,2*i*BEAD_RADIUS+earthBeadFirstRef,earthBeadDisplacement);
+            EarthBead earthBead = new EarthBead(context,refX,2*i*BEAD_RADIUS+earthBeadFirstRef,earthBeadDisplacement);
             earthBeadList.add(earthBead);
         }
+    }
+
+    public float getDividerY(){
+        return refY+MARGIN+TEXI_BOX_SIZE+heavenBeadSpace+5;
     }
 
     private void initPaint() {
@@ -71,16 +78,16 @@ public class Rod {
         boxPaint.setColor(Color.BLACK);
         boxPaint.setStyle(Paint.Style.STROKE);
         boxPaint.setStrokeWidth(5);
-        boxPaint.setTextSize(40);
+        boxPaint.setTextSize(35);
 
         rodPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        rodPaint.setColor(Color.RED);
+        rodPaint.setColor(Color.parseColor("#DD2C00"));
         rodPaint.setStyle(Paint.Style.STROKE);
-        rodPaint.setStrokeWidth(20);
+        rodPaint.setStrokeWidth(12);
     }
 
     public void draw(Canvas canvas){
-        canvas.drawRect((refX-TEXI_BOX_SIZE/2),refY+MARGIN,  (refX+TEXI_BOX_SIZE/2),refY+MARGIN+TEXI_BOX_SIZE,boxPaint);
+        canvas.drawRect((refX-TEXI_BOX_SIZE/2),refY+MARGIN,  (refX+TEXI_BOX_SIZE/2),refY+MARGIN+TEXI_BOX_SIZE,rodPaint);
         // Now draw the Rod on the Canvas
         canvas.drawLine(refX,refY+MARGIN+TEXI_BOX_SIZE,refX,refY+height-MARGIN,rodPaint);
         heavenBead.draw(canvas);
@@ -89,7 +96,7 @@ public class Rod {
             x.draw(canvas);
         }
 
-        canvas.drawText(String.valueOf(getValue()),refX-MARGIN,refY+MARGIN+TEXI_BOX_SIZE/2+MARGIN,boxPaint);
+        canvas.drawText(String.valueOf(getValue()),refX-MARGIN/2,refY+MARGIN+TEXI_BOX_SIZE/2+MARGIN/2,boxPaint);
     }
 
     public void move(){
@@ -181,5 +188,17 @@ public class Rod {
         }
 
         return total+heavenBead.getValue();
+    }
+
+    public float getRefX() {
+        return refX;
+    }
+
+    public float getRefY() {
+        return refY;
+    }
+
+    private int toPx(int dp){
+        return (int)((context.getResources().getDisplayMetrics().density)*dp);
     }
 }

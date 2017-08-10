@@ -1,23 +1,28 @@
 package com.baudiabatash.mygame.Model;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
+
+import com.baudiabatash.mygame.R;
 
 /**
  * Created by Genius 03 on 8/9/2017.
  */
 
 public class HeavenBead extends EarthBead {
+    private static final int INCREMENT=25;
 
 
-    public HeavenBead(float cX, float cY, float displacement) {
-        super(cX, cY, displacement);
-        getPaint().setColor(Color.BLACK);
+    public HeavenBead(Context context,float cX, float cY, float displacement) {
+        super(context,cX, cY, displacement);
+        getPaint().setColor(ContextCompat.getColor(context, R.color.heavenbeadColor));
     }
 
-    public HeavenBead(float cX, float cY) {
-        this(cX, cY,150);
+    public HeavenBead(Context context,float cX, float cY) {
+        this(context,cX, cY,150);
     }
 
 
@@ -42,10 +47,10 @@ public class HeavenBead extends EarthBead {
                 setTouch(true);
 
                 if(getcY()<getInitialCy()+getDisplacement()){
-                    setcY(getcY()+25);
+                    setcY(getcY()+INCREMENT);
                 }else{
                     setcY(getInitialCy()+getDisplacement());
-                    setMoveState(0);
+                    //setMoveState(0);
                 }
 
             }else{
@@ -54,10 +59,10 @@ public class HeavenBead extends EarthBead {
 
                 if(getcY()<=getInitialCy()){
                     setcY(getInitialCy());
-                    setMoveState(0);
+                    //setMoveState(0);
 
                 }else{
-                    setcY(getcY()-25);
+                    setcY(getcY()-INCREMENT);
                 }
 
 

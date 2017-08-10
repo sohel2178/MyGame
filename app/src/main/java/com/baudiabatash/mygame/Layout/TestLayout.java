@@ -5,12 +5,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 import com.baudiabatash.mygame.Model.Rod;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -25,12 +29,9 @@ public class TestLayout extends SurfaceView implements Runnable {
     private Context context;
 
     private static final String LOG="SOHEL";
+    private boolean moveEventCalled;
 
-    // Different Paint Init Here
-    private Paint red_fill,blue_fill,green_fill;
-    private Paint red_stroke,blue_stroke,green_stroke;
 
-    private float strokeWidth;
 
     //Game Loop Variable
     private double frame_per_second;
@@ -38,7 +39,13 @@ public class TestLayout extends SurfaceView implements Runnable {
     private double single_frame_time_second,single_frame_time_millis,single_frame_time_nanos;
 
 
-    private Rod rod;
+   // private Rod rod;
+
+    private List<Rod> rodList;
+    private static final int NUMBER_OF_ROD=10;
+    private int touchRodIndex;
+
+    private Paint rodPaint;
 
     public TestLayout(Context context) {
         super(context);
@@ -48,10 +55,35 @@ public class TestLayout extends SurfaceView implements Runnable {
         this.single_frame_time_second = 1/frame_per_second;
         this.single_frame_time_millis = single_frame_time_second*1000;
         this.single_frame_time_nanos = single_frame_time_millis*1000000;
-        this.surfaceHolder = getHolder();
-        this.strokeWidth=10;
 
-        rod = new Rod(100,0,getScreenHeight());
+        this.surfaceHolder = getHolder();
+        //rod = new Rod(100,0,getScreenHeight());
+
+        moveEventCalled = false;
+
+        initRodlist();
+        touchRodIndex=-1;
+    }
+
+    private void initRodlist() {
+        rodList = new ArrayList<>();
+
+        float spacing = getScreenWidth()/(NUMBER_OF_ROD+1);
+
+        for(int i =0; i<NUMBER_OF_ROD;i++){
+            Rod rod = new Rod(context,(i+1)*spacing,0,getScreenHeight());
+            rodList.add(rod);
+        }
+
+
+
+    }
+
+    private void initPaint(){
+        rodPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        rodPaint.setColor(Color.parseColor("#DD2C00"));
+        rodPaint.setStyle(Paint.Style.STROKE);
+        rodPaint.setStrokeWidth(12);
     }
 
     @Override
@@ -98,7 +130,13 @@ public class TestLayout extends SurfaceView implements Runnable {
     }
 
     private void updateDelta(double t_delta) {
-        rod.move();
+        //rod.move();
+
+        for(Rod x: rodList){
+            x.move();
+        }
+
+        moveEventCalled=false;
     }
 
     private void draw(){
@@ -106,57 +144,63 @@ public class TestLayout extends SurfaceView implements Runnable {
 
         canvas = surfaceHolder.lockCanvas();
         canvas.drawColor(Color.WHITE);
-        rod.draw(canvas);
+
+        //canvas.drawLine();
+        //rod.draw(canvas);
+        drawAllRod();
+        canvas.drawLine(rodList.get(0).getRefX(),rodList.get(0).getDividerY(),rodList.get(NUMBER_OF_ROD-1).getRefX(),rodList.get(0).getDividerY(),rodPaint);
         surfaceHolder.unlockCanvasAndPost(canvas);
 
+    }
+
+    private void drawAllRod() {
+        for(Rod x: rodList){
+            x.draw(canvas);
+        }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         boolean value= super.onTouchEvent(event);
 
-        switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN:{
-                return true;
+        if(!moveEventCalled){
+
+            switch (event.getAction()){
+
+                case MotionEvent.ACTION_DOWN:{
+
+
+                    return true;
+                }
+
+                case MotionEvent.ACTION_MOVE:{
+
+                    float x= event.getX();
+                    float y= event.getY();
+                    // rod.check(x,y);
+                    detectWhichRodIsTouched(x,y);
+                }
             }
 
-            case MotionEvent.ACTION_MOVE:{
-                float x= event.getX();
-                float y= event.getY();
-                rod.check(x,y);
-            }
         }
+
+
+
         return value;
     }
 
-    private void initPaint(){
-        red_fill = new Paint(Paint.ANTI_ALIAS_FLAG);
-        red_fill.setColor(Color.RED);
-        red_fill.setStyle(Paint.Style.FILL);
+    private void detectWhichRodIsTouched(float x, float y) {
 
-        blue_fill = new Paint();
-        blue_fill.setColor(Color.BLUE);
-        blue_fill.setStyle(Paint.Style.FILL);
 
-        green_fill = new Paint();
-        green_fill.setColor(Color.GREEN);
-        green_fill.setStyle(Paint.Style.FILL);
-
-        red_stroke = new Paint();
-        red_stroke.setColor(Color.RED);
-        red_stroke.setTextSize(60);
-        red_stroke.setStrokeWidth(5);
-        red_stroke.setStyle(Paint.Style.STROKE);
-
-        blue_stroke = new Paint();
-        blue_stroke.setColor(Color.BLUE);
-        blue_stroke.setStrokeWidth(strokeWidth);
-        blue_stroke.setStyle(Paint.Style.STROKE);
-
-        green_stroke = new Paint();
-        green_stroke.setColor(Color.GREEN);
-        green_stroke.setStrokeWidth(strokeWidth);
-        green_stroke.setStyle(Paint.Style.STROKE);
+       for(Rod rod:rodList){
+           rod.check(x,y);
+           /*if(Math.abs(rod.getRefX()-x)<30){
+               touchRodIndex = rodList.indexOf(rod);
+               break;
+           }*/
+       }
+        //set move Event Called=true sothat it will not Called Again
+        moveEventCalled=true;
     }
 
 
@@ -185,8 +229,6 @@ public class TestLayout extends SurfaceView implements Runnable {
 
     }
 
-    private void stats(){
-    }
 
 
 
@@ -201,6 +243,15 @@ public class TestLayout extends SurfaceView implements Runnable {
         display.getMetrics(metrics);
         int height = metrics.heightPixels;
         return height;
+    }
+
+    private int getScreenWidth() {
+        WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        int width = metrics.widthPixels;
+        return width;
     }
 
 }

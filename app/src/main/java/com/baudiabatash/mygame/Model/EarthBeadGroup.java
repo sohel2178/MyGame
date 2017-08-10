@@ -1,5 +1,6 @@
 package com.baudiabatash.mygame.Model;
 
+import android.content.Context;
 import android.graphics.Canvas;
 
 import java.util.ArrayList;
@@ -12,8 +13,10 @@ import java.util.List;
 public class EarthBeadGroup {
     private List<EarthBead> earthBeadList;
     private float refX,refY;
+    private Context context;
 
-    public EarthBeadGroup(float refX, float refY){
+    public EarthBeadGroup(Context context,float refX, float refY){
+        this.context = context;
         this.refX = refX;
         this.refY = refY;
         initList();
@@ -23,7 +26,7 @@ public class EarthBeadGroup {
         earthBeadList = new ArrayList<>();
 
         for(int i=0;i<4;i++) {
-            EarthBead earthBead = new EarthBead(refX,refY+(2*i+1)*50,50);
+            EarthBead earthBead = new EarthBead(context,refX,refY+(2*i+1)*50,50);
             earthBeadList.add(earthBead);
 
         }
